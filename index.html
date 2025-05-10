@@ -13,23 +13,28 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        min-height: 100vh;
       }
 
       #capture-wrapper {
         padding: 20px;
         background-color: #fffaf0;
         border-radius: 10px;
+        max-width: 900px;
+        width: 100%;
+        box-sizing: border-box;
       }
 
       .container {
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
         gap: 40px;
       }
 
       .center-content {
+        flex: 1 1 300px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -39,12 +44,15 @@
         box-shadow: 0 4px 12px rgba(255, 192, 203, 0.4);
         max-width: 400px;
         width: 100%;
+        box-sizing: border-box;
       }
 
       .flower,
       .woman {
-        height: 150px;
+        width: 150px;
+        height: auto;
         border-radius: 10px;
+        flex-shrink: 0;
       }
 
       .input-box {
@@ -58,6 +66,7 @@
         text-align: center;
         margin-bottom: 15px;
         box-shadow: 0 0 8px rgba(255, 192, 203, 0.3);
+        box-sizing: border-box;
       }
 
       .input-box::placeholder {
@@ -76,6 +85,8 @@
         cursor: pointer;
         transition: background-color 0.3s ease;
         box-shadow: 0 4px 8px rgba(248, 172, 207, 0.5);
+        width: 100%;
+        max-width: 200px;
       }
 
       .submit-btn:hover {
@@ -85,7 +96,7 @@
       .message {
         display: flex;
         flex-direction: column;
-        align-items: center; /* This centers the image horizontally */
+        align-items: center;
         text-align: center;
         font-size: 20px;
         color: #d6336c;
@@ -93,7 +104,8 @@
       }
 
       .message img {
-        width: 150px;
+        width: 100%;
+        max-width: 200px;
         height: auto;
         margin-bottom: 20px;
         border-radius: 10px;
@@ -115,6 +127,41 @@
       #download-btn {
         margin-top: 20px;
       }
+
+      .no-capture {
+        display: block;
+      }
+
+      /* Hide elements in this class during image export */
+      .capture-mode .no-capture {
+        display: none !important;
+      }
+
+      /* Responsive for smaller screens */
+      @media (max-width: 768px) {
+        .container {
+          flex-direction: column;
+          align-items: center;
+          text-align: center;
+        }
+
+        .flower,
+        .woman {
+          width: 120px;
+        }
+
+        .submit-btn {
+          font-size: 14px;
+        }
+
+        .message h1 {
+          font-size: 20px;
+        }
+
+        .message p {
+          font-size: 16px;
+        }
+      }
     </style>
   </head>
   <body>
@@ -126,17 +173,17 @@
             type="text"
             id="momName"
             class="input-box"
-            placeholder="Type your mom's name...."
+            placeholder="Type your name...."
           />
           <button class="submit-btn" onclick="showMessage()">Submit</button>
         </div>
         <img src="./read_woman.gif" class="woman" alt="Flower Right" />
       </div>
-      <div style="text-align: center; margin-top: 20px">
-        <p>Step 1: Type the name of your Mom.</p>
+      <div class="no-capture" style="text-align: center; margin-top: 20px">
+        <p>Step 1: Type your name.</p>
         <p>Step 2: Click "Submit".</p>
         <p>Step 3: Click "Download as Image".</p>
-        <p>Step 4: Share with your mom!</p>
+        <p>Step 4: Share</p>
         <button id="download-btn" class="submit-btn" onclick="downloadImage()">
           Download as Image
         </button>
@@ -161,9 +208,10 @@
         }
       }
 
+      //
       function downloadImage() {
-        const downloadBtn = document.getElementById("download-btn");
-        downloadBtn.style.display = "none"; // hide before capture
+        const body = document.body;
+        body.classList.add("capture-mode"); // Add class to hide no-capture items
 
         html2canvas(document.querySelector("#capture-wrapper")).then(
           (canvas) => {
@@ -171,7 +219,8 @@
             link.download = "mothers-day-message.png";
             link.href = canvas.toDataURL("image/png");
             link.click();
-            downloadBtn.style.display = "inline-block"; // restore after
+
+            body.classList.remove("capture-mode"); // Restore visibility after capture
           }
         );
       }
