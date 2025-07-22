@@ -1,473 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mother's Day Greeting Card</title>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&family=Dancing+Script:wght@700&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      body {
-        margin: 0;
-        padding: 20px; /* Added some body padding */
-        background-color: #fdf6f8; /* Softer, slightly warmer pink background */
-        font-family: "Poppins", "Segoe UI", sans-serif; /* Primary font */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        color: #5c3c49; /* Darker base text color for better contrast */
-        box-sizing: border-box;
-      }
-
-      #greeting-card-creator {
-        /* Renamed for clarity */
-        padding: 25px 30px; /* Adjusted padding */
-        background: linear-gradient(
-          135deg,
-          #fff0f5 0%,
-          #ffe6ea 100%
-        ); /* Softer gradient */
-        border-radius: 20px; /* Softer corners */
-        max-width: 850px; /* Slightly adjusted max-width */
-        width: 100%;
-        box-sizing: border-box;
-        box-shadow: 0 12px 35px rgba(200, 150, 165, 0.25); /* More pronounced but soft shadow */
-        transition: all 0.3s ease-in-out;
-      }
-
-      .card-preview-area {
-        /* This is the area that will be captured */
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        flex-wrap: wrap;
-        gap: 25px;
-        padding-bottom: 25px; /* Space before next section */
-        margin-bottom: 25px;
-        /* border-bottom: 1px dashed #f7b5cb; /* Optional separator */
-      }
-
-      .content-form-area {
-        /* Was .center-content */
-        flex: 1 1 320px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        background-color: rgba(
-          255,
-          255,
-          255,
-          0.8
-        ); /* Slightly more opaque for readability */
-        padding: 30px 25px;
-        border-radius: 15px;
-        box-shadow: 0 6px 18px rgba(255, 192, 203, 0.4);
-        width: 100%;
-        box-sizing: border-box;
-        transition: opacity 0.5s ease-out, transform 0.5s ease-out; /* For smooth transitions */
-      }
-
-      .decorative-gif {
-        /* Common class for side gifs */
-        width: 120px;
-        height: auto;
-        border-radius: 15px; /* Rounded corners for gifs */
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-        flex-shrink: 0;
-        transition: transform 0.3s ease;
-      }
-
-      .decorative-gif:hover {
-        transform: scale(1.05) rotate(2deg); /* Playful hover effect */
-      }
-
-      .input-field {
-        /* Was .input-box */
-        padding: 14px 20px;
-        border: 1px solid #f7b5cb;
-        border-radius: 25px; /* Friendly rounded shape */
-        background-color: #ffffff;
-        color: #d6336c;
-        font-size: 16px;
-        font-family: "Poppins", sans-serif;
-        width: 100%;
-        text-align: center;
-        margin-bottom: 20px;
-        box-shadow: inset 0 2px 5px rgba(220, 150, 170, 0.15);
-        box-sizing: border-box;
-        transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      }
-
-      .input-field::placeholder {
-        color: #e91e63;
-        opacity: 0.6;
-      }
-
-      .input-field:focus {
-        outline: none;
-        border-color: #e91e63;
-        box-shadow: inset 0 2px 4px rgba(220, 150, 170, 0.2),
-          0 0 0 3px rgba(248, 172, 207, 0.3);
-      }
-
-      .action-button {
-        /* Common style for buttons */
-        padding: 12px 28px;
-        border: none;
-        border-radius: 25px;
-        background: linear-gradient(
-          to right,
-          #f8cdda,
-          #f58cb9
-        ); /* Updated gradient */
-        color: white;
-        font-weight: 600;
-        font-size: 16px;
-        font-family: "Poppins", sans-serif;
-        cursor: pointer;
-        transition: all 0.25s ease;
-        box-shadow: 0 5px 15px rgba(248, 172, 207, 0.4);
-        min-width: 180px;
-        text-align: center;
-        display: inline-block;
-        margin-top: 10px;
-      }
-
-      .action-button:hover {
-        background: linear-gradient(
-          to right,
-          #f58cb9,
-          #f8cdda
-        ); /* Reverse gradient on hover */
-        box-shadow: 0 7px 18px rgba(245, 140, 185, 0.5);
-        transform: translateY(-2px);
-      }
-      .action-button:active {
-        transform: translateY(0px);
-        box-shadow: 0 4px 12px rgba(248, 172, 207, 0.3);
-      }
-
-      .generated-message {
-        /* Was .message */
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        color: #d6336c;
-      }
-
-      .generated-message .greeting-image {
-        /* Was .mother-pic */
-        width: 100%;
-        max-width: 170px;
-        height: auto;
-        margin-bottom: 20px;
-        border-radius: 15px;
-        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
-      }
-
-      .generated-message h1 {
-        color: #b0004f;
-        font-family: "Dancing Script", cursive; /* More festive, handwritten style */
-        font-size: 36px; /* Larger for emphasis */
-        line-height: 1.2;
-        margin-bottom: 10px;
-        margin-top: 0;
-      }
-
-      .generated-message p {
-        color: #6a4f5a; /* Softer than pure black, harmonizes with pinks */
-        font-size: 17px;
-        line-height: 1.6;
-        margin: 5px 0;
-        max-width: 95%;
-      }
-      .generated-message .sender-name {
-        font-style: italic;
-        margin-top: 15px;
-        font-size: 1.05em;
-        color: #c03979;
-      }
-
-      .user-guidance {
-        /* Was .no-capture, new container for instructions */
-        text-align: center;
-        margin-top: 10px; /* Reduced margin as preview area has margin-bottom */
-        padding: 20px;
-        background-color: rgba(
-          255,
-          240,
-          245,
-          0.7
-        ); /* Very light pinkish transparent */
-        border-radius: 15px;
-      }
-
-      .user-guidance h2 {
-        font-family: "Playfair Display", serif;
-        color: #b0004f;
-        margin-top: 0;
-        margin-bottom: 15px;
-        font-size: 22px;
-      }
-
-      .user-guidance p {
-        color: #5c3c49;
-        font-size: 15px;
-        line-height: 1.6;
-        margin-bottom: 8px;
-      }
-      .user-guidance p strong {
-        color: #d6336c;
-        font-weight: 600;
-      }
-
-      /* This class will be added to body during capture to hide non-card elements */
-      .capture-mode .user-guidance,
-      .capture-mode .download-button-container {
-        /* Ensure download button is also hidden */
-        display: none !important;
-      }
-
-      .download-button-container {
-        text-align: center;
-        margin-top: 20px;
-        display: none; /* Hidden by default, shown by JS */
-      }
-      .download-button-container p {
-        margin-bottom: 15px;
-        color: #5c3c49;
-        font-size: 15px;
-      }
-
-      /* Responsive Adjustments */
-      @media (max-width: 768px) {
-        body {
-          padding: 15px;
-        }
-        #greeting-card-creator {
-          padding: 20px;
-        }
-        .card-preview-area {
-          flex-direction: column;
-          gap: 20px;
-          padding-bottom: 20px;
-          margin-bottom: 20px;
-        }
-        .decorative-gif {
-          width: 100px;
-          order: -1; /* Gifs appear above form on mobile stack */
-        }
-        .decorative-gif.right-gif {
-          order: 1; /* Ensure this is after the form if stacked */
-        }
-        .content-form-area {
-          padding: 25px 20px;
-        }
-        .generated-message h1 {
-          font-size: 30px;
-        }
-        .generated-message p {
-          font-size: 16px;
-        }
-        .user-guidance h2 {
-          font-size: 20px;
-        }
-      }
-
-      @media (max-width: 480px) {
-        #greeting-card-creator {
-          padding: 15px;
-        }
-        .content-form-area {
-          padding: 20px 15px;
-        }
-        .decorative-gif {
-          width: 80px;
-        }
-        .input-field,
-        .action-button {
-          font-size: 15px;
-        }
-        .action-button {
-          padding: 10px 20px;
-          width: 100%;
-          max-width: 280px;
-        }
-        .generated-message h1 {
-          font-size: 26px;
-        }
-        .generated-message p {
-          font-size: 15px;
-        }
-        .user-guidance p {
-          font-size: 14px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="greeting-card-creator">
-      <div class="card-preview-area" id="capture-area">
-        <img
-          src="./flower.gif"
-          class="decorative-gif left-gif"
-          alt="Animated Flower"
-        />
-        <div class="content-form-area" id="dynamic-content-holder">
-          <input
-            type="text"
-            id="senderNameInput"
-            class="input-field"
-            placeholder="Enter your name..."
-          />
-          <button class="action-button" onclick="generateGreeting()">
-            Create My Card
-          </button>
-        </div>
-        <img
-          src="./read_woman.gif"
-          class="decorative-gif right-gif"
-          alt="Animated Woman Reading"
-        />
-      </div>
-
-      <div class="user-guidance" id="instructions-section">
-        <h2>Make a Card for Mom!</h2>
-        <p><strong>1.</strong> Type your name in the box above.</p>
-        <p><strong>2.</strong> Click "Create My Card".</p>
-        <p><strong>3.</strong> Your lovely card will appear right there!</p>
-      </div>
-
-      <div class="download-button-container" id="download-section">
-        <p>Love your card? Download and share it with Mom!</p>
-        <button
-          id="downloadCardBtn"
-          class="action-button"
-          onclick="downloadCardAsImage()"
-        >
-          Download Card
-        </button>
-      </div>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loveable Letter</title>
+  <!-- add icon -->
+  <link rel="icon" href="./img/3.png" type="image/png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Indie+Flower&display=swap');
+    body {
+      font-family: 'Indie Flower', cursive;
+    }
+    .draggable {
+      cursor: grab;
+    }
+    .draggable-img {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+    }
+    #letter-box {
+      min-height: 300px;
+      position: relative;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body class="bg-white p-4 sm:p-6">
+  <div class="max-w-2xl mx-auto border border-black rounded-md p-4 relative bg-white">
+    <!-- Title -->
+    <div class="text-3xl text-center mb-4">
+      <span>Loveable</span> <span>App</span>
     </div>
 
-    <script>
-      const dynamicContentHolder = document.getElementById(
-        "dynamic-content-holder"
-      );
-      const senderNameInput = document.getElementById("senderNameInput");
-      const downloadSection = document.getElementById("download-section");
-      const instructionsSection = document.getElementById(
-        "instructions-section"
-      );
-      const captureArea = document.getElementById("capture-area"); // The element to be captured
+    <!-- Draggable Icons -->
+    <div class="flex flex-wrap justify-center gap-3 mb-6">
+      <img src="./img/1.png" class="w-10 h-10 draggable" draggable="true" />
+      <img src="./img/2.png" class="w-10 h-10 draggable" draggable="true" />
+      <img src="./img/3.png" class="w-10 h-10 draggable" draggable="true" />
+      <img src="./img/4.png" class="w-10 h-10 draggable" draggable="true" />
+    </div>
 
-      function generateGreeting() {
-        const name = senderNameInput.value.trim();
+    <!-- Letter Area -->
+    <div id="letter-box" class="border border-black rounded-md bg-gray-100 p-4 mb-4" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <div id="message-output" class="whitespace-pre-wrap min-h-[150px] mb-2 text-lg text-black"></div>
+      <div id="closing-name" class="text-right text-sm text-gray-700"></div>
+      <div id="uploaded-images" class="flex gap-2 mt-2"></div>
 
-        if (name) {
-          // Animate out the form
-          dynamicContentHolder.style.opacity = "0";
-          dynamicContentHolder.style.transform =
-            "scale(0.95) translateY(-10px)";
+    </div>
 
-          setTimeout(() => {
-            dynamicContentHolder.innerHTML = `
-                        <div class="generated-message">
-                            <img src="./naime.jpg" alt="Happy Mother's Day" class="greeting-image" />
-                            <h1>Happy Mother's Day!</h1>
-                            <p>To the best Mom in the world, thank you for your endless love, support, and guidance. We're so grateful for you every day!</p>
-                            <p class="sender-name">With all our love,<br>${name}</p>
-                        </div>
-                    `;
-            // Animate in the message
-            dynamicContentHolder.style.opacity = "1";
-            dynamicContentHolder.style.transform = "scale(1) translateY(0px)";
+    <!-- Inputs -->
+    <div class="space-y-4">
+      <input type="file" id="image-upload" accept="image/*" multiple class="mb-4" style="display:block" />
+      <textarea id="user-message" class="w-full border border-gray-300 rounded-md p-2" rows="3" placeholder="Write your message here..."></textarea>
+      <input type="text" id="user-name" class="w-full border border-gray-300 rounded-md p-2" placeholder="Your name..." />
+      <input type="text" id="closing-message" class="w-full border border-gray-300 rounded-md p-2" placeholder="Closing message (e.g., Love, From)" />
+      <button onclick="updateLetter()" class="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600 w-full">Update Letter</button>
+      <button onclick="downloadLetter()" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 w-full">Download as Image</button>
+    </div>
+  </div>
 
-            if (instructionsSection) instructionsSection.style.display = "none"; // Hide instructions
-            downloadSection.style.display = "block"; // Show the download button section
-          }, 400); // Corresponds to transition time
-        } else {
-          alert(
-            "Please enter your name so Mom knows who this beautiful card is from! 💖"
-          );
-          senderNameInput.focus();
+  <script>
+    function updateLetter() {
+      const message = document.getElementById("user-message").value;
+      const name = document.getElementById("user-name").value;
+      const closing = document.getElementById("closing-message").value;
+
+      document.getElementById("message-output").textContent = message;
+      document.getElementById("closing-name").innerHTML = `${closing}<br>${name}`;
+      document.getElementById("letter-box").style.display = "block";
+
+    }
+
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      const imgSrc = ev.dataTransfer.getData("text/plain");
+      const img = document.createElement("img");
+      img.src = imgSrc;
+      img.className = "draggable-img";
+      img.style.top = ev.offsetY + "px";
+      img.style.left = ev.offsetX + "px";
+      makeElementDraggable(img);
+      document.getElementById("letter-box").appendChild(img);
+    }
+
+    document.querySelectorAll(".draggable").forEach((img) => {
+      img.addEventListener("dragstart", (e) => {
+        e.dataTransfer.setData("text/plain", e.target.src);
+      });
+    });
+
+    function makeElementDraggable(el) {
+      el.onmousedown = function (e) {
+        e.preventDefault();
+        let shiftX = e.clientX - el.getBoundingClientRect().left;
+        let shiftY = e.clientY - el.getBoundingClientRect().top;
+
+        function moveAt(pageX, pageY) {
+          el.style.left = pageX - shiftX - letterBox.offsetLeft + 'px';
+          el.style.top = pageY - shiftY - letterBox.offsetTop + 'px';
         }
-      }
 
-      function downloadCardAsImage() {
-        const body = document.body;
-        body.classList.add("capture-mode"); // Hide non-card elements
-
-        // Ensure images within the capture area are loaded
-        const images = captureArea.getElementsByTagName("img");
-        const promises = [];
-        for (let img of images) {
-          if (!img.complete || img.naturalWidth === 0) {
-            // Check if image is loaded
-            promises.push(
-              new Promise((resolve) => {
-                img.onload = resolve;
-                img.onerror = () => {
-                  console.warn(`Image could not be loaded: ${img.src}`);
-                  resolve(); // Resolve anyway to not block canvas generation
-                };
-              })
-            );
-          }
+        function onMouseMove(e) {
+          moveAt(e.pageX, e.pageY);
         }
 
-        Promise.all(promises)
-          .then(() => {
-            html2canvas(captureArea, {
-              backgroundColor: "#fdf6f8", // Explicitly set background for the captured image
-              scale: 2, // Higher scale for better resolution
-              useCORS: true, // If any images are from external sources
-              logging: true, // For debugging html2canvas issues
-              onclone: (clonedDoc) => {
-                // You can make temporary style changes to the cloned document
-                // before capture if needed, e.g., remove temporary hover states.
-                // For instance, if decorative-gif had a transform on hover:
-                // clonedDoc.querySelectorAll('.decorative-gif').forEach(el => el.style.transform = 'none');
-              },
-            })
-              .then((canvas) => {
-                const link = document.createElement("a");
-                const today = new Date();
-                const dateString = `${today.getFullYear()}-${String(
-                  today.getMonth() + 1
-                ).padStart(2, "0")}-${String(today.getDate()).padStart(
-                  2,
-                  "0"
-                )}`;
-                link.download = `Mothers-Day-Card-from-${
-                  senderNameInput.value.trim() || "User"
-                }-${dateString}.png`;
-                link.href = canvas.toDataURL("image/png");
-                link.click();
+        document.addEventListener('mousemove', onMouseMove);
 
-                body.classList.remove("capture-mode"); // Restore visibility
-              })
-              .catch((err) => {
-                console.error("Error during html2canvas operation:", err);
-                body.classList.remove("capture-mode");
-                alert(
-                  "Sorry, there was an issue creating the image. Please try again or check console for errors."
-                );
-              });
-          })
-          .catch((err) => {
-            console.error("Error waiting for images to load:", err);
-            body.classList.remove("capture-mode");
-            alert(
-              "Some images might not have loaded correctly. Please try again."
-            );
-          });
-      }
-    </script>
-  </body>
+        el.onmouseup = function () {
+          document.removeEventListener('mousemove', onMouseMove);
+          el.onmouseup = null;
+        };
+      };
+      el.ondragstart = function () {
+        return false;
+      };
+    }
+
+    function downloadLetter() {
+      const box = document.getElementById("letter-box");
+      html2canvas(box, { useCORS: true }).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "my-letter.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+
+    document.getElementById('image-upload').addEventListener('change', function (e) {
+      const files = Array.from(e.target.files).slice(0, 3); // Max 3 images
+      const container = document.getElementById('uploaded-images');
+      container.innerHTML = ''; // Clear previous images
+
+      files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const img = document.createElement('img');
+          img.src = event.target.result;
+          img.className = 'h-20 object-cover rounded shadow mr-2 mb-2 inline-block';
+          container.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+  </script>
+</body>
 </html>
