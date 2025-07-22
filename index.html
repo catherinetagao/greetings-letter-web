@@ -94,6 +94,20 @@
       img.addEventListener("dragstart", (e) => {
         e.dataTransfer.setData("text/plain", e.target.src);
       });
+
+      // Touch support for mobile
+      img.addEventListener("touchstart", function(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const letterBox = document.getElementById("letter-box");
+        const imgClone = document.createElement("img");
+        imgClone.src = img.src;
+        imgClone.className = "draggable-img";
+        imgClone.style.top = (touch.clientY - letterBox.getBoundingClientRect().top) + "px";
+        imgClone.style.left = (touch.clientX - letterBox.getBoundingClientRect().left) + "px";
+        makeElementDraggable(imgClone);
+        letterBox.appendChild(imgClone);
+      });
     });
 
     function makeElementDraggable(el) {
@@ -126,10 +140,14 @@
     function downloadLetter() {
       const box = document.getElementById("letter-box");
       html2canvas(box, { useCORS: true }).then(canvas => {
-        const link = document.createElement("a");
-        link.download = "my-letter.png";
-        link.href = canvas.toDataURL();
-        link.click();
+        canvas.toBlob(function(blob) {
+          const link = document.createElement("a");
+          link.download = "my-letter.png";
+          link.href = URL.createObjectURL(blob);
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        });
       });
     }
 
